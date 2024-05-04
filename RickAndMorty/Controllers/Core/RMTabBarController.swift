@@ -7,12 +7,14 @@
 
 import UIKit
 
+/// Controroller house tabs and root tabs Controroller
 final class RMTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
      
         setUpTabs()
+        
         
     }
     private func setUpTabs() {
@@ -21,18 +23,7 @@ final class RMTabBarController: UITabBarController {
         let episodesVC = RMEpisodeViewController()
         let settingsVC = RMSettingsViewController()
         
-        
-        
-        
-       /*
-        charactersVC.title = "Characters"
-        locationsVC.title = "Locations"
-        episodesVC.title = "Episodes"
-        settingsVC.title = "Settings"
-        
-        tittles were added sapertilly in each controller file insited
-        */
-        //for large tittle
+    
         charactersVC.navigationItem.largeTitleDisplayMode = .automatic
         locationsVC.navigationItem.largeTitleDisplayMode = .automatic
         episodesVC.navigationItem.largeTitleDisplayMode = .automatic
