@@ -7,8 +7,17 @@
 
 import UIKit
 
+
+protocol RMCharacterListViewDelegate : AnyObject {
+    func rmCharacterListView(
+        _ characterListView : RMCharacterListView
+        ,didSelectCharacter Character : RMCharacter
+    )
+}
+
 final class RMCharacterListView: UIView {
     
+    public weak var delegate : RMCharacterListViewDelegate?
     private let viewModel = RMCharacterListViewViewModel()
     
     private let spinner : UIActivityIndicatorView = {
@@ -72,24 +81,23 @@ final class RMCharacterListView: UIView {
     private func setUpCollectionView(){
         collectionVew.dataSource = viewModel
         collectionVew.delegate = viewModel
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+2,
-                                      execute: {
-            self.spinner.stopAnimating()
-            self.collectionVew.isHidden = false
-            
-            UIView.animate(withDuration: 0.4) {
-                self.collectionVew.alpha = 1
-            }
-            
-        })
-        
+
     }
 }
 
 extension RMCharacterListView : RMCharacterListViewViewModelDelegate{
+    func didSelectCharacter(_ character: RMCharacter) {
+        delegate?.rmCharacterListView(self, didSelectCharacter: character)
+    }
+    
     
     func didLoadInitialCharacters() {
-        collectionVew.reloadData()
+        
+        spinner.stopAnimating()
+       collectionVew.isHidden = false
+        collectionVew.reloadData() // inital fetch
+       UIView.animate(withDuration: 0.4) {
+       self.collectionVew.alpha = 1
+                   }
     }
 }

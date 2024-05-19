@@ -35,11 +35,11 @@ final class RMservies{
                                    expecting type: T.Type,
                         completion: @escaping (Result<T ,Error > )-> Void){
         
-        guard let RMrequest = self.request(from: request) else {
+        guard let urlrequest = self.request(from: request) else {
             completion(.failure(RMserviceError.failedtocreatrequest))
             return
         }
-        let task = URLSession.shared.dataTask(with: RMrequest) { data, _, error in
+        let task = URLSession.shared.dataTask(with: urlrequest) { data, _, error in
             guard let data = data , error == nil else {
                 completion(.failure(error ?? RMserviceError.faildtogetData ))
                 return

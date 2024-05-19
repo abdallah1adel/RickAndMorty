@@ -8,7 +8,7 @@
 import UIKit
 
 /// Controller to show and search for characters
-final class RMCharacterViewController: UIViewController {
+final class RMCharacterViewController: UIViewController , RMCharacterListViewDelegate{
 
     private let characterListView = RMCharacterListView()
     
@@ -19,9 +19,18 @@ final class RMCharacterViewController: UIViewController {
         title = "Characters"
         setUpView()
         
+//        RMservies.shared.execute(.listCharactersRequests, expecting: RMGetAllCharactersResponse.self) { result in
+//            switch result {
+//            case.success(let model) :
+//                print("tottal"+String(model.results.count))
+//            case.failure(let error) :
+//                print(String(describing: error))
+//            }
+//        }
         
     }//Main_function
-    private func setUpView(){ view.addSubview(characterListView)
+    private func setUpView(){characterListView.delegate = self
+        view.addSubview(characterListView)
         NSLayoutConstraint.activate([
             characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
@@ -29,4 +38,12 @@ final class RMCharacterViewController: UIViewController {
             characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    // MARK - rmCharacterListViewdelegate implemnation 
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter Character: RMCharacter) {
+        let viewModel = RMCharacterDetailViewViewModel(character: Character)
+        let detailVC = RMCharacterDetailViewController (viewModel: viewModel)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    
 }//First_calss

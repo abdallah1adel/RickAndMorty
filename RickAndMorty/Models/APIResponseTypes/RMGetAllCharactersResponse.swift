@@ -15,7 +15,7 @@ struct RMGetAllCharactersResponse : Codable {
         let previous : String?
         
     }
-    let info : info
+    let Info : info
     let results : [RMCharacter]
     
 }

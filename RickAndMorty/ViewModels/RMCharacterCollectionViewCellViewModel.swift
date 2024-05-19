@@ -4,7 +4,7 @@
 //
 //  Created by pcpos on 03/05/2024.
 //
-
+ 
 import Foundation
 final class RMCharacterCollectionViewCellViewModel {
  
@@ -27,7 +27,7 @@ final class RMCharacterCollectionViewCellViewModel {
     
     public var characterStatusText : String {
         
-        return charecterStatus.rawValue
+        return "Status: \(charecterStatus.text)"
     }
     
     

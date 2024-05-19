@@ -13,7 +13,8 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private let imageView : UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -35,17 +36,25 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         return Label
     }()
     
-    // MARK - Init
+    // MARK - Init Cell shape
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubViews(imageView,nameLabel,statusLabel)
         addConstraint()
+        SetUpLayer()
     }
     required init?(coder: NSCoder) {
         fatalError("unsupported")
     }
     
+    private func SetUpLayer() {
+        contentView.layer.cornerRadius = 8
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.cornerRadius = 4
+        contentView.layer.shadowOpacity = 0.4
+    }
+    /// cells size
     private func addConstraint() {
         NSLayoutConstraint.activate([
             statusLabel.heightAnchor.constraint(equalToConstant: 40),
@@ -71,6 +80,11 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
        // imageView.backgroundColor = .systemCyan
        // nameLabel.backgroundColor = .red
        // statusLabel.backgroundColor = .orange
+    }
+    
+    override func traitCollectionDidChange(_ PreviousTraitCollection:UITraitCollection?){
+        super.traitCollectionDidChange(PreviousTraitCollection)
+        SetUpLayer()
     }
     
     override func prepareForReuse() {
