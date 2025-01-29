@@ -4,46 +4,49 @@
 //
 //  Created by pcpos on 19/04/2024.
 //
-
 import UIKit
 
-/// Controller to show and search for characters
-final class RMCharacterViewController: UIViewController , RMCharacterListViewDelegate{
+/// Controller to show and search for Characters
+final class RMCharacterViewController: UIViewController, RMCharacterListViewDelegate {
 
     private let characterListView = RMCharacterListView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .systemBackground
         title = "Characters"
         setUpView()
-        
-//        RMservies.shared.execute(.listCharactersRequests, expecting: RMGetAllCharactersResponse.self) { result in
-//            switch result {
-//            case.success(let model) :
-//                print("tottal"+String(model.results.count))
-//            case.failure(let error) :
-//                print(String(describing: error))
-//            }
-//        }
-        
-    }//Main_function
-    private func setUpView(){characterListView.delegate = self
+        addSearchButton()
+    }
+
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+
+    @objc private func didTapSearch() {
+        let vc = RMSearchViewController(config: RMSearchViewController.Config(type: .character))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func setUpView() {
+        characterListView.delegate = self
         view.addSubview(characterListView)
         NSLayoutConstraint.activate([
             characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    // MARK - rmCharacterListViewdelegate implemnation 
-    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter Character: RMCharacter) {
-        let viewModel = RMCharacterDetailViewViewModel(character: Character)
-        let detailVC = RMCharacterDetailViewController (viewModel: viewModel)
+
+    // MARK: - RMCharacterListViewDelegate
+
+    func rmCharacterListView(_ characterListView: RMCharacterListView, didSelectCharacter character: RMCharacter) {
+        // Open detail controller for that character
+        let viewModel = RMCharacterDetailViewViewModel(character: character)
+        let detailVC = RMCharacterDetailViewController(viewModel: viewModel)
+        detailVC.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(detailVC, animated: true)
     }
-    
-    
-}//First_calss
+}

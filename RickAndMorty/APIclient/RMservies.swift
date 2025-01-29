@@ -4,76 +4,84 @@
 //
 //  Created by pcpos on 21/04/2024.
 //
-
 import Foundation
 
+/// Primary API service object to get Rick and Morty data
+final class RMService {
+    /// Shared singleton instance
+    @MainActor static let shared = RMService()
 
-/// primary servece API obect to get Rick and Morty data
-final class RMservies{
-    
-    /// shared  singelton instance
-    static let shared = RMservies()
-    
-    
-    /// privatized constructor
-    private init(){}
-    
-    enum RMserviceError : Error {
-        case failedtocreatrequest
-        case faildtogetData
-       
+    private let cacheManager = RMAPICacheManager()
+
+    /// Privatized constructor
+    private init() {}
+
+    /// Error types
+    enum RMServiceError: Error {
+        case failedToCreateRequest
+        case failedToGetData
     }
-    
-    /// calling the API 
+
+    /// Send Rick and Morty API Call
     /// - Parameters:
-    ///   - reques: request instance
-    ///   - type: the type of request we expect to get back
-    ///   - compleetion: call back with data or give eroor
-    ///   - request: request instance
-    ///   - completion: completion instance
-    public func execute<T:Codable>(_ request : RMrequest,
-                                   expecting type: T.Type,
-                        completion: @escaping (Result<T ,Error > )-> Void){
-        
-        guard let urlrequest = self.request(from: request) else {
-            completion(.failure(RMserviceError.failedtocreatrequest))
-            return
-        }
-        let task = URLSession.shared.dataTask(with: urlrequest) { data, _, error in
-            guard let data = data , error == nil else {
-                completion(.failure(error ?? RMserviceError.faildtogetData ))
-                return
-            }
-            
-            //decode a response
-            do{
-                let result = try
-                JSONDecoder().decode(type.self, from: data)
+    ///   - request: Request instance
+    ///   - type: The type of object we expect to get back
+    ///   - completion: Callback with data or error
+    public func execute<T: Codable>(
+        _ request: RMRequest,
+        expecting type: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) {
+        if let cachedData = cacheManager.cachedResponse(
+            for: request.endpoint,
+            url: request.url
+        ) {
+            do {
+                let result = try JSONDecoder().decode(type.self, from: cachedData)
                 completion(.success(result))
-               
             }
             catch {
-                        completion(.failure(error))
+                completion(.failure(error))
+            }
+            return
+        }
+
+        guard let urlRequest = self.request(from: request) else {
+            completion(.failure(RMServiceError.failedToCreateRequest))
+            return
+        }
+
+        let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, _, error in
+            guard let data = data, error == nil else {
+                completion(.failure(error ?? RMServiceError.failedToGetData))
+                return
+            }
+
+            // Decode response
+            do {
+                let result = try JSONDecoder().decode(type.self, from: data)
+                self?.cacheManager.setCache(
+                    for: request.endpoint,
+                    url: request.url,
+                    data: data
+                )
+                completion(.success(result))
+            }
+            catch {
+                completion(.failure(error))
             }
         }
-                           task.resume()
+        task.resume()
     }
-    private func request(from rmRequest:RMrequest) -> URLRequest? {
-        guard let url = rmRequest.Url else { return nil}
+
+    // MARK: - Private
+
+    private func request(from rmRequest: RMRequest) -> URLRequest? {
+        guard let url = rmRequest.url else {
+            return nil
+        }
         var request = URLRequest(url: url)
-        
         request.httpMethod = rmRequest.httpMethod
         return request
     }
-}//class
-
-
-/*let request = RMrequest(
- endpoint: .charcter
- queryparameters: [
- URLQueryItem(name: "name", value: "Rick")
- URLQueryItem(name: "status", value: "alive")
- ]
-
-)
-print(request.Url)*/
+}
