@@ -1,0 +1,78 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "extended-srgb:1.00000,0.80000,0.00000,1.00000",
+      "display-p3:0.45100,0.96783,0.06110,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 1
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0.3
+      }
+    }
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "soft-light",
+          "glass" : false,
+          "image-name" : "made-this-png-of-the-new-logo-for-some-tattoo-designs-v0-nrtw46l7p0td1.png.png",
+          "name" : "made-this-png-of-the-new-logo-for-some-tattoo-designs-v0-nrtw46l7p0td1.png",
+          "position" : {
+            "scale" : 0.015,
+            "translation-in-points" : [
+              -68.94187499999998,
+              313.296875
+            ]
+          }
+        },
+        {
+          "glass" : true,
+          "image-name" : "Rick_sanchez_rick_and_morty_render_by_ty50ntheskeleton_df8ftht-fullview.png",
+          "name" : "Rick_sanchez_rick_and_morty_render_by_ty50ntheskeleton_df8ftht-fullview",
+          "position" : {
+            "scale" : 1.33,
+            "translation-in-points" : [
+              -122.984375,
+              33.200000000000045
+            ]
+          }
+        },
+        {
+          "blend-mode" : "plus-lighter",
+          "glass" : false,
+          "hidden" : false,
+          "image-name" : "abstract-of-science-and-laboratory-concept-with-line-icons-of-scientist-on-grey-gradient-background-vector.jpg",
+          "name" : "abstract-of-science-and-laboratory-concept-with-line-icons-of-scientist-on-grey-gradient-background-vector",
+          "opacity" : 0.33,
+          "position" : {
+            "scale" : 1.65,
+            "translation-in-points" : [
+              121.32718750000004,
+              -85.8515625
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

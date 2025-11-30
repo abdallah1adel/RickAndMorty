@@ -35,6 +35,7 @@
 		55199A612BE5669700E6F65C /* RMCharacterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55199A602BE5669700E6F65C /* RMCharacterCollectionViewCell.swift */; };
 		55199A632BE5693400E6F65C /* RMCharacterCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55199A622BE5693400E6F65C /* RMCharacterCollectionViewCellViewModel.swift */; };
 		55199A672BE596BB00E6F65C /* RMCharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55199A662BE596BB00E6F65C /* RMCharacterListView.swift */; };
+		552BD66A2EDC01A6007F0F0C /* rick.icon in Resources */ = {isa = PBXBuildFile; fileRef = 552BD6692EDC01A6007F0F0C /* rick.icon */; };
 		553659AA2BF55A6F00D6046D /* RMCharacterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553659A92BF55A6F00D6046D /* RMCharacterDetailViewController.swift */; };
 		5595E7EE2BF55D0300C44520 /* RMCharacterDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5595E7ED2BF55D0300C44520 /* RMCharacterDetailView.swift */; };
 		5595E7F02BF55D3A00C44520 /* RMCharacterDetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5595E7EF2BF55D3A00C44520 /* RMCharacterDetailViewViewModel.swift */; };
@@ -130,6 +131,7 @@
 		55199A602BE5669700E6F65C /* RMCharacterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterCollectionViewCell.swift; sourceTree = "<group>"; };
 		55199A622BE5693400E6F65C /* RMCharacterCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		55199A662BE596BB00E6F65C /* RMCharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterListView.swift; sourceTree = "<group>"; };
+		552BD6692EDC01A6007F0F0C /* rick.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = rick.icon; sourceTree = "<group>"; };
 		553659A92BF55A6F00D6046D /* RMCharacterDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailViewController.swift; sourceTree = "<group>"; };
 		5595E7ED2BF55D0300C44520 /* RMCharacterDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailView.swift; sourceTree = "<group>"; };
 		5595E7EF2BF55D3A00C44520 /* RMCharacterDetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterDetailViewViewModel.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				5595E7ED2BF55D0300C44520 /* RMCharacterDetailView.swift */,
 				55CDED282D4A690D00D28A09 /* RMCharacterEpisodeCollectionViewCell.swift */,
 				55CDED2A2D4A693000D28A09 /* RMCharacterInfoCollectionViewCell.swift */,
+				552BD6692EDC01A6007F0F0C /* rick.icon */,
 				55CDED2C2D4A694900D28A09 /* RMCharacterPhotoCollectionViewCell.swift */,
 				55CDED2E2D4A697500D28A09 /* RMEpisodeListView.swift */,
 				55CDED302D4A699100D28A09 /* RMEpisodeDetailView.swift */,
@@ -505,6 +508,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				552BD66A2EDC01A6007F0F0C /* rick.icon in Resources */,
 				5505D3842BD28F6C00019C62 /* Assets.xcassets in Resources */,
 				5505D3872BD28F6C00019C62 /* Base in Resources */,
 			);
@@ -766,7 +770,7 @@
 		5505D3A22BD28F6C00019C62 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = rick;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -793,7 +797,7 @@
 		5505D3A32BD28F6C00019C62 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = rick;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

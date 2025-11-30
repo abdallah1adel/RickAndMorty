@@ -6,10 +6,10 @@
 //
 import UIKit
 
+@MainActor
 protocol RMCharacterListViewViewModelDelegate: AnyObject {
     func didLoadInitialCharacters()
     func didLoadMoreCharacters(with newIndexPaths: [IndexPath])
-
     func didSelectCharacter(_ character: RMCharacter)
 }
 

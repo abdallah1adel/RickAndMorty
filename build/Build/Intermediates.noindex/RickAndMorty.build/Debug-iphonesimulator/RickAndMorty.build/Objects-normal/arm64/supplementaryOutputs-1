@@ -1,0 +1,51 @@
+{
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/Controllers/Core/RMLocationViewController.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationViewController.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationViewController.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationViewController.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationViewController.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationViewController.swiftdeps"
+  },
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/Models/APIResponseTypes/RMGetAllCharactersResponse.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMGetAllCharactersResponse.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMGetAllCharactersResponse.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMGetAllCharactersResponse.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMGetAllCharactersResponse.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMGetAllCharactersResponse.swiftdeps"
+  },
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/ViewModels/RMCharacterDetailViewViewModel.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterDetailViewViewModel.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterDetailViewViewModel.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterDetailViewViewModel.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterDetailViewViewModel.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterDetailViewViewModel.swiftdeps"
+  },
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/ViewModels/RMCharacterInfoCollectionViewCellViewModel.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCellViewModel.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCellViewModel.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCellViewModel.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCellViewModel.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCellViewModel.swiftdeps"
+  },
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/Views/RMCharacterInfoCollectionViewCell.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCell.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCell.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCell.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCell.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMCharacterInfoCollectionViewCell.swiftdeps"
+  },
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/Views/RMEpisodeInfoCollectionViewCell.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMEpisodeInfoCollectionViewCell.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMEpisodeInfoCollectionViewCell.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMEpisodeInfoCollectionViewCell.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMEpisodeInfoCollectionViewCell.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMEpisodeInfoCollectionViewCell.swiftdeps"
+  },
+  "/Users/pcpos/Desktop/programming/RickAndMorty/RickAndMorty/Views/RMLocationDetailView.swift" : {
+    "const-values" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationDetailView.swiftconstvalues",
+    "dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationDetailView.d",
+    "diagnostics" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationDetailView.dia",
+    "object" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationDetailView.o",
+    "swift-dependencies" : "/Users/pcpos/Desktop/programming/RickAndMorty/build/Build/Intermediates.noindex/RickAndMorty.build/Debug-iphonesimulator/RickAndMorty.build/Objects-normal/arm64/RMLocationDetailView.swiftdeps"
+  }
+}

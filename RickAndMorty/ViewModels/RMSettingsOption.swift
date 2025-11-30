@@ -17,9 +17,9 @@ enum RMSettingsOption: CaseIterable {
         case .rateApp:
             return nil
         case .viewCode:
-            return URL(string: "https://github.com/pcpos")
+            return URL(string: "https://github.com/abdallah1adel/RickAndMorty")
         case .creator:
-            return URL(string: "https://github.com/pcpos")
+            return URL(string: "https://github.com/abdallah1adel")
         }
     }
 
@@ -37,7 +37,7 @@ enum RMSettingsOption: CaseIterable {
     var displaySubtitle: String? {
         switch self {
         case .creator:
-            return "iOS Developer, 22 y/o"
+            return "iOS Developer"
         default:
             return nil
         }

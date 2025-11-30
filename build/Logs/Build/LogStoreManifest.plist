@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>11</integer>
+	<key>logs</key>
+	<dict>
+		<key>8D30FAA3-16F2-4B9C-8C7C-99D677370B05</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>8D30FAA3-16F2-4B9C-8C7C-99D677370B05.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>1</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>22</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>RickAndMorty project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>RickAndMorty</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project RickAndMorty with scheme RickAndMorty</string>
+			<key>timeStartedRecording</key>
+			<real>786167463.78050995</real>
+			<key>timeStoppedRecording</key>
+			<real>786167477.02838302</real>
+			<key>title</key>
+			<string>Building project RickAndMorty with scheme RickAndMorty</string>
+			<key>uniqueIdentifier</key>
+			<string>8D30FAA3-16F2-4B9C-8C7C-99D677370B05</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
