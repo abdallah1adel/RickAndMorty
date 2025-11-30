@@ -2,16 +2,105 @@
 //  RMEpisodeDetailView.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 29/01/2025.
+//  Created by Abdallah Adel on 29/01/2025.
 //
 import UIKit
 
+@MainActor
 protocol RMEpisodeDetailViewDelegate: AnyObject {
     func rmEpisodeDetailView(
         _ detailView: RMEpisodeDetailView,
         didSelect character: RMCharacter
     )
 }
+
+// MARK: - Episode Header View
+
+final class RMEpisodeHeaderView: UICollectionReusableView {
+    static let identifier = "RMEpisodeHeaderView"
+    
+    private let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = 20
+        iv.layer.cornerCurve = .continuous
+        iv.layer.borderWidth = 0.5
+        iv.layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
+        return iv
+    }()
+    
+    private let gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        layer.colors = [
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.5).cgColor
+        ]
+        layer.locations = [0.5, 1.0]
+        return layer
+    }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .white
+        label.textAlignment = .center
+        label.text = "Episode Details"
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(imageView)
+        imageView.layer.addSublayer(gradientLayer)
+        addSubview(titleLabel)
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -16),
+            titleLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -16),
+        ])
+        
+        // Load Rick image from URL
+        loadRickImage()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = imageView.bounds
+    }
+    
+    private func loadRickImage() {
+        // Rick Sanchez image URL from the API
+        let rickImageURL = URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg")!
+        
+        URLSession.shared.dataTask(with: rickImageURL) { [weak self] data, _, _ in
+            guard let data = data else { return }
+            DispatchQueue.main.async {
+                self?.imageView.image = UIImage(data: data)
+            }
+        }.resume()
+    }
+    
+    func configure(with episodeName: String?) {
+        if let name = episodeName {
+            titleLabel.text = name
+        }
+    }
+}
+
+// MARK: - Episode Detail View
 
 final class RMEpisodeDetailView: UIView {
 
@@ -90,6 +179,9 @@ final class RMEpisodeDetailView: UIView {
                                 forCellWithReuseIdentifier: RMEpisodeInfoCollectionViewCell.cellIdentifier)
         collectionView.register(RMCharacterCollectionViewCell.self,
                                 forCellWithReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier)
+        collectionView.register(RMEpisodeHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: RMEpisodeHeaderView.identifier)
         return collectionView
     }
 
@@ -149,6 +241,19 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
             return cell
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              indexPath.section == 0,
+              let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: RMEpisodeHeaderView.identifier,
+                for: indexPath
+              ) as? RMEpisodeHeaderView else {
+            return UICollectionReusableView()
+        }
+        return header
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -173,19 +278,18 @@ extension RMEpisodeDetailView: UICollectionViewDelegate, UICollectionViewDataSou
 extension RMEpisodeDetailView {
     func layout(for section: Int) -> NSCollectionLayoutSection {
         guard let sections = viewModel?.cellViewModels else {
-            return createInfoLayout()
+            return createInfoLayout(withHeader: section == 0)
         }
 
         switch sections[section] {
         case .information:
-            return createInfoLayout()
+            return createInfoLayout(withHeader: section == 0)
         case .characters:
             return createCharacterLayout()
         }
     }
 
-    func createInfoLayout() -> NSCollectionLayoutSection {
-
+    func createInfoLayout(withHeader: Bool = false) -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(layoutSize: .init(
             widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalHeight(1))
@@ -200,6 +304,20 @@ extension RMEpisodeDetailView {
         )
 
         let section = NSCollectionLayoutSection(group: group)
+        
+        // Add header for first section
+        if withHeader {
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(200)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            section.boundarySupplementaryItems = [header]
+        }
 
         return section
     }
@@ -207,7 +325,7 @@ extension RMEpisodeDetailView {
     func createCharacterLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(UIDevice.isiPhone ? 0.5 : 0.25),
+                widthDimension: .fractionalWidth((UIDevice.current.userInterfaceIdiom == .phone) ? 0.5 : 0.25),
                 heightDimension: .fractionalHeight(1.0)
             )
         )
@@ -221,11 +339,12 @@ extension RMEpisodeDetailView {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize:  NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(UIDevice.isiPhone ? 260 : 320)
+                heightDimension: .absolute((UIDevice.current.userInterfaceIdiom == .phone) ? 260 : 320)
             ),
-            subitems: UIDevice.isiPhone ? [item, item] : [item, item, item, item]
+            subitems: (UIDevice.current.userInterfaceIdiom == .phone) ? [item, item] : [item, item, item, item]
         )
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
 }
+

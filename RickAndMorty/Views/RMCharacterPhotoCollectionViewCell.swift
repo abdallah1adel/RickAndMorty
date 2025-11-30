@@ -16,15 +16,47 @@ final class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    // Gradient overlay for depth
+    private let gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        layer.colors = [
+            UIColor.clear.cgColor,
+            UIColor.black.withAlphaComponent(0.3).cgColor
+        ]
+        layer.locations = [0.6, 1.0]
+        return layer
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupGlassStyle()
         contentView.addSubview(imageView)
+        imageView.layer.addSublayer(gradientLayer)
         setUpConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError()
+    }
+    
+    private func setupGlassStyle() {
+        // Rounded corners with glass border
+        contentView.layer.cornerRadius = 24
+        contentView.layer.cornerCurve = .continuous
+        contentView.clipsToBounds = true
+        
+        // Glass border
+        contentView.layer.borderWidth = 0.5
+        contentView.layer.borderColor = UIColor.white.withAlphaComponent(0.2).cgColor
+        
+        // Floating shadow
+        layer.cornerRadius = 24
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 10)
+        layer.shadowRadius = 20
+        layer.shadowOpacity = 0.2
+        layer.masksToBounds = false
     }
 
     private func setUpConstraints() {
@@ -34,6 +66,11 @@ final class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
             imageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = imageView.bounds
     }
 
     override func prepareForReuse() {

@@ -8,10 +8,12 @@
 import Foundation
 
 
+@MainActor
 protocol RMLocationDetailViewViewModelDelegate: AnyObject {
     func didFetchLocationDetails()
 }
 
+@MainActor
 final class RMLocationDetailViewViewModel {
     private let endpointUrl: URL?
     private var dataTuple: (location: RMLocation, characters: [RMCharacter])? {
@@ -76,7 +78,7 @@ final class RMLocationDetailViewViewModel {
     }
 
     /// Fetch backing location model
-    public func fetchLocationData() {
+    @MainActor public func fetchLocationData() {
         guard let url = endpointUrl,
               let request = RMRequest(url: url) else {
             return
@@ -93,7 +95,7 @@ final class RMLocationDetailViewViewModel {
         }
     }
 
-    private func fetchRelatedCharacters(location: RMLocation) {
+    @MainActor private func fetchRelatedCharacters(location: RMLocation) {
         let requests: [RMRequest] = location.residents.compactMap({
             return URL(string: $0)
         }).compactMap({

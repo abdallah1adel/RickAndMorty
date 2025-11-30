@@ -6,6 +6,7 @@
 //
 import UIKit
 
+@MainActor
 protocol RMEpisodeListViewDelegate: AnyObject {
     func rmEpisodeListView(
         _ characterListView: RMEpisodeListView,
@@ -48,7 +49,8 @@ final class RMEpisodeListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(collectionView, spinner)
+        addSubview(collectionView)
+        addSubview(spinner)
         addConstraints()
         spinner.startAnimating()
         viewModel.delegate = self
@@ -80,7 +82,7 @@ final class RMEpisodeListView: UIView {
     }
 }
 
-extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
+extension RMEpisodeListView: @MainActor RMEpisodeListViewViewModelDelegate {
     func didLoadInitialEpisodes() {
         spinner.stopAnimating()
         collectionView.isHidden = false
@@ -100,3 +102,4 @@ extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
         delegate?.rmEpisodeListView(self, didSelectEpisode: episode)
     }
 }
+

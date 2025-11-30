@@ -51,7 +51,7 @@ final class RMEpisodeListViewViewModel: NSObject {
     private var apiInfo: RMGetAllEpisodesResponse.Info? = nil
 
     /// Fetch initial set of episodes (20)
-    public func fetchEpisodes() {
+    @MainActor public func fetchEpisodes() {
         RMService.shared.execute(
             .listEpisodesRequest,
             expecting: RMGetAllEpisodesResponse.self
@@ -60,9 +60,9 @@ final class RMEpisodeListViewViewModel: NSObject {
             case .success(let responseModel):
                 let results = responseModel.results
                 let info = responseModel.info
-                self?.episodes = results
-                self?.apiInfo = info
                 DispatchQueue.main.async {
+                    self?.episodes = results
+                    self?.apiInfo = info
                     self?.delegate?.didLoadInitialEpisodes()
                 }
             case .failure(let error):
@@ -72,7 +72,7 @@ final class RMEpisodeListViewViewModel: NSObject {
     }
 
     /// Paginate if additional episodes are needed
-    public func fetchAdditionalEpisodes(url: URL) {
+    @MainActor public func fetchAdditionalEpisodes(url: URL) {
         guard !isLoadingMoreCharacters else {
             return
         }
@@ -90,18 +90,19 @@ final class RMEpisodeListViewViewModel: NSObject {
             case .success(let responseModel):
                 let moreResults = responseModel.results
                 let info = responseModel.info
-                strongSelf.apiInfo = info
-
-                let originalCount = strongSelf.episodes.count
-                let newCount = moreResults.count
-                let total = originalCount+newCount
-                let startingIndex = total - newCount
-                let indexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex+newCount)).compactMap({
-                    return IndexPath(row: $0, section: 0)
-                })
-                strongSelf.episodes.append(contentsOf: moreResults)
 
                 DispatchQueue.main.async {
+                    strongSelf.apiInfo = info
+
+                    let originalCount = strongSelf.episodes.count
+                    let newCount = moreResults.count
+                    let total = originalCount+newCount
+                    let startingIndex = total - newCount
+                    let indexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex+newCount)).compactMap({
+                        return IndexPath(row: $0, section: 0)
+                    })
+                    strongSelf.episodes.append(contentsOf: moreResults)
+
                     strongSelf.delegate?.didLoadMoreEpisodes(
                         with: indexPathsToAdd
                     )
@@ -110,7 +111,9 @@ final class RMEpisodeListViewViewModel: NSObject {
                 }
             case .failure(let failure):
                 print(String(describing: failure))
-                self?.isLoadingMoreCharacters = false
+                DispatchQueue.main.async {
+                    strongSelf.isLoadingMoreCharacters = false
+                }
             }
         }
     }

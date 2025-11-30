@@ -33,7 +33,8 @@ final class RMNoSearchResultsView: UIView {
         super.init(frame: frame)
         isHidden = true
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(iconView, label)
+        addSubview(iconView)
+        addSubview(label)
         addConstraints()
         configure()
     }

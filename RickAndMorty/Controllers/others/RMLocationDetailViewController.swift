@@ -7,7 +7,8 @@
 
 import UIKit
 
-final class RMLocationDetailViewController: UIViewController, RMLocationDetailViewViewModelDelegate, RMLocationDetailViewDelegate {
+@MainActor
+final class RMLocationDetailViewController: UIViewController, @MainActor RMLocationDetailViewViewModelDelegate, @MainActor RMLocationDetailViewDelegate {
 
     private let viewModel: RMLocationDetailViewViewModel
 
@@ -72,3 +73,4 @@ final class RMLocationDetailViewController: UIViewController, RMLocationDetailVi
         detailView.configure(with: viewModel)
     }
 }
+

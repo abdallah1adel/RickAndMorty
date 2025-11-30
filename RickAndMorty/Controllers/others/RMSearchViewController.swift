@@ -79,7 +79,7 @@ final class RMSearchViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+        super.viewDidAppear(animated)
         searchView.presentKeyboard()
     }
 
@@ -100,7 +100,7 @@ final class RMSearchViewController: UIViewController {
 
 // MARK: - RMSearchViewDelegate
 
-extension RMSearchViewController: RMSearchViewDelegate {
+extension RMSearchViewController: @MainActor RMSearchViewDelegate {
     func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption) {
         let vc = RMSearchOptionPickerViewController(option: option) { [weak self] selection in
             DispatchQueue.main.async {

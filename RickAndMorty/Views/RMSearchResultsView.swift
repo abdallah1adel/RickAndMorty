@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 protocol RMSearchResultsViewDelegate: AnyObject {
     func rmSearchResultsView(_ resultsView: RMSearchResultsView, didTapLocationAt index: Int)
     func rmSearchResultsView(_ resultsView: RMSearchResultsView, didTapCharacterAt index: Int)
@@ -207,7 +208,7 @@ extension RMSearchResultsView: UICollectionViewDelegate, UICollectionViewDataSou
 
         if currentViewModel is RMCharacterCollectionViewCellViewModel {
             // Character size
-            let width = UIDevice.isiPhone ? (bounds.width-30)/2 : (bounds.width-50)/4
+            let width = UIDevice.current.userInterfaceIdiom == .phone ? (bounds.width-30)/2 : (bounds.width-50)/4
             return CGSize(
                 width: width,
                 height: width * 1.5
@@ -215,7 +216,7 @@ extension RMSearchResultsView: UICollectionViewDelegate, UICollectionViewDataSou
         }
 
         // Episode
-        let width = UIDevice.isiPhone ? bounds.width-20 : (bounds.width-50) / 4
+        let width = UIDevice.current.userInterfaceIdiom == .phone ? bounds.width-20 : (bounds.width-50) / 4
         return CGSize(
             width: width,
             height: 100
@@ -268,29 +269,31 @@ extension RMSearchResultsView: UIScrollViewDelegate {
             return
         }
 
+        let offset = scrollView.contentOffset.y
+        let totalContentHeight = scrollView.contentSize.height
+        let totalScrollViewFixedHeight = scrollView.frame.size.height
+
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
-            let offset = scrollView.contentOffset.y
-            let totalContentHeight = scrollView.contentSize.height
-            let totalScrollViewFixedHeight = scrollView.frame.size.height
-
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-                viewModel.fetchAdditionalResults { [weak self] newResults in
-                    guard let strongSelf = self else {
-                        return
-                    }
+                DispatchQueue.main.async {
+                    viewModel.fetchAdditionalResults { [weak self] newResults in
+                        guard let strongSelf = self else {
+                            return
+                        }
 
-                    DispatchQueue.main.async {
-                        strongSelf.tableView.tableFooterView = nil
+                        DispatchQueue.main.async {
+                            strongSelf.tableView.tableFooterView = nil
 
-                        let originalCount = strongSelf.collectionViewCellViewModels.count
-                        let newCount = (newResults.count - originalCount)
-                        let total = originalCount + newCount
-                        let startingIndex = total - newCount
-                        let indexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex+newCount)).compactMap({
-                            return IndexPath(row: $0, section: 0)
-                        })
-                        strongSelf.collectionViewCellViewModels = newResults
-                        strongSelf.collectionView.insertItems(at: indexPathsToAdd)
+                            let originalCount = strongSelf.collectionViewCellViewModels.count
+                            let newCount = (newResults.count - originalCount)
+                            let total = originalCount + newCount
+                            let startingIndex = total - newCount
+                            let indexPathsToAdd: [IndexPath] = Array(startingIndex..<(startingIndex+newCount)).compactMap({
+                                return IndexPath(row: $0, section: 0)
+                            })
+                            strongSelf.collectionViewCellViewModels = newResults
+                            strongSelf.collectionView.insertItems(at: indexPathsToAdd)
+                        }
                     }
                 }
             }
@@ -306,20 +309,22 @@ extension RMSearchResultsView: UIScrollViewDelegate {
             return
         }
 
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
-            let offset = scrollView.contentOffset.y
-            let totalContentHeight = scrollView.contentSize.height
-            let totalScrollViewFixedHeight = scrollView.frame.size.height
+        let offset = scrollView.contentOffset.y
+        let totalContentHeight = scrollView.contentSize.height
+        let totalScrollViewFixedHeight = scrollView.frame.size.height
 
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
                 DispatchQueue.main.async {
                     self?.showTableLoadingIndicator()
-                }
-                viewModel.fetchAdditionalLocations { [weak self] newResults in
-                    // Refresh table
-                    self?.tableView.tableFooterView = nil
-                    self?.locationCellViewModels = newResults
-                    self?.tableView.reloadData()
+                    viewModel.fetchAdditionalLocations { [weak self] newResults in
+                        DispatchQueue.main.async {
+                            // Refresh table
+                            self?.tableView.tableFooterView = nil
+                            self?.locationCellViewModels = newResults
+                            self?.tableView.reloadData()
+                        }
+                    }
                 }
             }
             t.invalidate()

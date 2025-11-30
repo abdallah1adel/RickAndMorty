@@ -158,3 +158,4 @@ extension RMSearchView: RMSearchResultsViewDelegate {
         delegate?.rmSearchView(self, didSelectCharacter: characterModel)
     }
 }
+

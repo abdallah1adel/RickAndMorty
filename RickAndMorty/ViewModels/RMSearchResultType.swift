@@ -22,7 +22,7 @@ final class RMSearchResultViewModel {
         return next != nil
     }
 
-    public func fetchAdditionalLocations(completion: @escaping ([RMLocationTableViewCellViewModel]) -> Void) {
+    @MainActor public func fetchAdditionalLocations(completion: @escaping ([RMLocationTableViewCellViewModel]) -> Void) {
         guard !isLoadingMoreResults else {
             return
         }
@@ -76,7 +76,7 @@ final class RMSearchResultViewModel {
         }
     }
 
-    public func fetchAdditionalResults(completion: @escaping ([any Hashable]) -> Void) {
+    @MainActor public func fetchAdditionalResults(completion: @escaping ([any Hashable]) -> Void) {
         guard !isLoadingMoreResults else {
             return
         }

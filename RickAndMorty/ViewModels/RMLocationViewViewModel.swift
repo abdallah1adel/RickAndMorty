@@ -7,11 +7,12 @@
 
 import Foundation
 
+@MainActor
 protocol RMLocationViewViewModelDelegate: AnyObject {
     func didFetchInitialLocations()
 }
 
-final class RMLocationViewViewModel {
+@MainActor final class RMLocationViewViewModel {
 
     weak var delegate: RMLocationViewViewModelDelegate?
 
@@ -74,11 +75,11 @@ final class RMLocationViewViewModel {
             case .success(let responseModel):
                 let moreResults = responseModel.results
                 let info = responseModel.info
-                strongSelf.apiInfo = info
-                strongSelf.cellViewModels.append(contentsOf: moreResults.compactMap({
-                    return RMLocationTableViewCellViewModel(location: $0)
-                }))
                 DispatchQueue.main.async {
+                    strongSelf.apiInfo = info
+                    strongSelf.cellViewModels.append(contentsOf: moreResults.compactMap({
+                        return RMLocationTableViewCellViewModel(location: $0)
+                    }))
                     strongSelf.isLoadingMoreLocations = false
 
                     // Notify via callback
@@ -86,7 +87,9 @@ final class RMLocationViewViewModel {
                 }
             case .failure(let failure):
                 print(String(describing: failure))
-                self?.isLoadingMoreLocations = false
+                DispatchQueue.main.async {
+                    strongSelf.isLoadingMoreLocations = false
+                }
             }
         }
     }
@@ -110,7 +113,7 @@ final class RMLocationViewViewModel {
                 DispatchQueue.main.async {
                     self?.delegate?.didFetchInitialLocations()
                 }
-            case .failure(let error):
+            case .failure(_):
                 // TODO: Handle error
                 break
             }
@@ -121,3 +124,4 @@ final class RMLocationViewViewModel {
         return false
     }
 }
+

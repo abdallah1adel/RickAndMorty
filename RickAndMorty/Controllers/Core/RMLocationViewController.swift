@@ -8,6 +8,7 @@
 import UIKit
 
 /// Controller to show and search for locations
+@MainActor
 final class RMLocationViewController: UIViewController, RMLocationViewViewModelDelegate, RMLocationViewDelegate {
 
     private let primaryView = RMLocationView()

@@ -8,27 +8,39 @@ import UIKit
 
 final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     static let cellIdentifier = "RMEpisodeInfoCollectionViewCell"
+    
+    // Glass background
+    private let glassBackground: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 13, weight: .semibold)
+        label.textColor = .secondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .regular)
-        label.textAlignment = .right
-        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .label
+        label.textAlignment = .left
+        label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemBackground
-        contentView.addSubviews(titleLabel, valueLabel)
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
+        contentView.addSubview(glassBackground)
+        glassBackground.contentView.addSubviews(titleLabel, valueLabel)
         setUpLayer()
         addConstraints()
     }
@@ -38,24 +50,42 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     }
 
     private func setUpLayer() {
-        layer.cornerRadius = 8
-        layer.masksToBounds = true
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.secondaryLabel.cgColor
+        // Modern glass card
+        contentView.layer.cornerRadius = 14
+        contentView.layer.cornerCurve = .continuous
+        contentView.clipsToBounds = true
+        
+        // Subtle glass border
+        contentView.layer.borderWidth = 0.5
+        contentView.layer.borderColor = UIColor.white.withAlphaComponent(0.15).cgColor
+        
+        // Soft shadow
+        layer.cornerRadius = 14
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowRadius = 8
+        layer.shadowOpacity = 0.08
+        layer.masksToBounds = false
     }
 
     private func addConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 10),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-
-            valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            valueLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10),
-            valueLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-
-            titleLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.47),
-            valueLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.47)
+            // Glass background fills cell
+            glassBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
+            glassBackground.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            glassBackground.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            glassBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            
+            // Title at top
+            titleLabel.topAnchor.constraint(equalTo: glassBackground.contentView.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 14),
+            titleLabel.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -14),
+            
+            // Value below title
+            valueLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            valueLabel.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 14),
+            valueLabel.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -14),
+            valueLabel.bottomAnchor.constraint(lessThanOrEqualTo: glassBackground.contentView.bottomAnchor, constant: -12),
         ])
     }
 
@@ -66,7 +96,7 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with viewModel: RMEpisodeInfoCollectionViewCellViewModel) {
-        titleLabel.text = viewModel.title
+        titleLabel.text = viewModel.title.uppercased()
         valueLabel.text = viewModel.value
     }
 }

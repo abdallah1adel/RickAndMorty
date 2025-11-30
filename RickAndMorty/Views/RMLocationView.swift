@@ -7,6 +7,7 @@
 import UIKit
 
 /// Interface to relay location view events
+@MainActor
 protocol RMLocationViewDelegate: AnyObject {
     func rmLocationView(_ locationView: RMLocationView, didSelect location: RMLocation)
 }
@@ -138,14 +139,16 @@ extension RMLocationView: UIScrollViewDelegate {
             return
         }
 
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
-            let offset = scrollView.contentOffset.y
-            let totalContentHeight = scrollView.contentSize.height
-            let totalScrollViewFixedHeight = scrollView.frame.size.height
+        let offset = scrollView.contentOffset.y
+        let totalContentHeight = scrollView.contentSize.height
+        let totalScrollViewFixedHeight = scrollView.frame.size.height
 
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-                self?.showLoadingIndicator()
-                viewModel.fetchAdditionalLocations()
+                DispatchQueue.main.async {
+                    self?.showLoadingIndicator()
+                    viewModel.fetchAdditionalLocations()
+                }
             }
             t.invalidate()
         }
@@ -154,5 +157,12 @@ extension RMLocationView: UIScrollViewDelegate {
     private func showLoadingIndicator() {
         let footer = RMTableLoadingFooterView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: 100))
         tableView.tableFooterView = footer
+    }
+}
+
+extension UIView {
+    /// Adds multiple subviews at once.
+    func addSubviews(_ views: UIView...) {
+        views.forEach(addSubview)
     }
 }

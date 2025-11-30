@@ -8,6 +8,7 @@
 import UIKit
 
 /// Controller to show and search for Episodes
+@MainActor
 final class RMEpisodeViewController: UIViewController, RMEpisodeListViewDelegate {
 
     private let episodeListView = RMEpisodeListView()

@@ -2,7 +2,7 @@
 //  RMSettingsCellViewModel.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 29/01/2025.
+//  Created by Abdallah Adel on 29/01/2025.
 //
 
 import UIKit
@@ -28,6 +28,10 @@ struct RMSettingsCellViewModel: Identifiable {
 
     public var title: String {
         return type.displayTitle
+    }
+    
+    public var subtitle: String? {
+        return type.displaySubtitle
     }
 
     public var iconContainerColor: UIColor {

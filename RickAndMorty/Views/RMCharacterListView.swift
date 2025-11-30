@@ -81,7 +81,7 @@ final class RMCharacterListView: UIView {
     }
 }
 
-extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
+extension RMCharacterListView: @MainActor RMCharacterListViewViewModelDelegate {
     func didSelectCharacter(_ character: RMCharacter) {
         delegate?.rmCharacterListView(self, didSelectCharacter: character)
     }
@@ -102,3 +102,4 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
         }
     }
 }
+

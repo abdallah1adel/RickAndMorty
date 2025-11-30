@@ -60,6 +60,7 @@ final class RMCharacterDetailViewViewModel {
 
     // MARK: - Layouts
 
+    @MainActor
     public func createPhotoSectionLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
@@ -83,10 +84,11 @@ final class RMCharacterDetailViewViewModel {
         return section
     }
 
+    @MainActor
     public func createInfoSectionLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(UIDevice.isSubclass(of: UIWindow.self) ? 0.5 : 0.25),
+                widthDimension: .fractionalWidth(UIDevice.current.userInterfaceIdiom == .phone ? 0.5 : 0.25),
                 heightDimension: .fractionalHeight(1.0)
             )
         )
@@ -102,12 +104,13 @@ final class RMCharacterDetailViewViewModel {
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .absolute(150)
             ),
-            subitems: UIDevice.isSubclass(of: UIWindow.self) ? [item, item] : [item, item, item, item]
+            subitems: UIDevice.current.userInterfaceIdiom == .phone ? [item, item] : [item, item, item, item]
         )
         let section = NSCollectionLayoutSection(group: group)
         return section
     }
 
+    @MainActor
     public func createEpisodeSectionLayout() -> NSCollectionLayoutSection {
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
@@ -124,7 +127,7 @@ final class RMCharacterDetailViewViewModel {
 
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize:  NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(UIDevice.isiPhone ? 0.8 : 0.4),
+                widthDimension: .fractionalWidth((UIDevice.current.userInterfaceIdiom == .phone) ? 0.8 : 0.4),
                 heightDimension: .absolute(150)
             ),
             subitems: [item]

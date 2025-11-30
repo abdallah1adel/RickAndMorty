@@ -8,6 +8,7 @@
 import UIKit
 
 /// VC to show details about single episode
+@MainActor
 final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailViewViewModelDelegate, RMEpisodeDetailViewDelegate {
     private let viewModel: RMEpisodeDetailViewViewModel
 

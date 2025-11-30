@@ -7,7 +7,8 @@
 import UIKit
 
 /// Controller to show and search for Characters
-final class RMCharacterViewController: UIViewController, RMCharacterListViewDelegate {
+@MainActor
+final class RMCharacterViewController: UIViewController, @MainActor RMCharacterListViewDelegate {
 
     private let characterListView = RMCharacterListView()
 
@@ -50,3 +51,4 @@ final class RMCharacterViewController: UIViewController, RMCharacterListViewDele
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
+

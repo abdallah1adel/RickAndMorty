@@ -7,6 +7,7 @@
 
 import UIKit
 
+@MainActor
 protocol RMSearchInputViewDelegate: AnyObject {
     func rmSearchInputView(_ inputView: RMSearchInputView,
                            didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
@@ -44,7 +45,7 @@ final class RMSearchInputView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(searchBar)
+        addSubview(searchBar)
         addConstraints()
 
         searchBar.delegate = self
@@ -176,3 +177,4 @@ extension RMSearchInputView: UISearchBarDelegate {
         delegate?.rmSearchInputViewDidTapSearchKeyboardButton(self)
     }
 }
+

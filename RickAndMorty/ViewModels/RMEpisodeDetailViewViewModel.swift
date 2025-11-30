@@ -7,10 +7,12 @@
 
 import UIKit
 
+@MainActor
 protocol RMEpisodeDetailViewViewModelDelegate: AnyObject {
     func didFetchEpisodeDetails()
 }
 
+@MainActor
 final class RMEpisodeDetailViewViewModel {
     private let endpointUrl: URL?
     private var dataTuple: (episode: RMEpisode, characters: [RMCharacter])? {
@@ -75,7 +77,7 @@ final class RMEpisodeDetailViewViewModel {
     }
 
     /// Fetch backing episode model
-    public func fetchEpisodeData() {
+    @MainActor public func fetchEpisodeData() {
         guard let url = endpointUrl,
               let request = RMRequest(url: url) else {
             return
@@ -92,7 +94,7 @@ final class RMEpisodeDetailViewViewModel {
         }
     }
 
-    private func fetchRelatedCharacters(episode: RMEpisode) {
+    @MainActor private func fetchRelatedCharacters(episode: RMEpisode) {
         let requests: [RMRequest] = episode.characters.compactMap({
             return URL(string: $0)
         }).compactMap({
@@ -128,3 +130,4 @@ final class RMEpisodeDetailViewViewModel {
         }
     }
 }
+

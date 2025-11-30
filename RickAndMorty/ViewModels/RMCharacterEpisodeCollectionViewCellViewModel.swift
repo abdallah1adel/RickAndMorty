@@ -42,7 +42,7 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
         self.dataBlock = block
     }
 
-    public func fetchEpisode() {
+    @MainActor public func fetchEpisode() {
         guard !isFetching else {
             if let model = episode {
                 dataBlock?(model)

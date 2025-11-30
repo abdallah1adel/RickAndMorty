@@ -14,7 +14,7 @@ final class RMCharacterPhotoCollectionViewCellViewModel {
         self.imageUrl = imageUrl
     }
 
-    public func fetchImage(completion: @escaping (Result<Data, Error>) -> Void) {
+    @MainActor public func fetchImage(completion: @escaping (Result<Data, Error>) -> Void) {
         guard let imageUrl = imageUrl else {
             completion(.failure(URLError(.badURL)))
             return

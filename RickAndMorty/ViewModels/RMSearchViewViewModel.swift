@@ -36,7 +36,7 @@ final class RMSearchViewViewModel {
         self.noResultsHandler = block
     }
 
-    public func executeSearch() {
+    @MainActor public func executeSearch() {
         guard !searchText.trimmingCharacters(in: .whitespaces).isEmpty else {
             return
         }
@@ -68,16 +68,19 @@ final class RMSearchViewViewModel {
         }
     }
 
-    private func makeSearchAPICall<T: Codable>(_ type: T.Type, request: RMRequest) {
+    @MainActor private func makeSearchAPICall<T: Codable>(_ type: T.Type, request: RMRequest) {
         RMService.shared.execute(request, expecting: type) { [weak self] result in
             // Notify view of results, no results, or error
 
             switch result {
             case .success(let model):
-                self?.processSearchResults(model: model)
+                DispatchQueue.main.async {
+                    self?.processSearchResults(model: model)
+                }
             case .failure:
-                self?.handleNoResults()
-                break
+                DispatchQueue.main.async {
+                    self?.handleNoResults()
+                }
             }
         }
     }
