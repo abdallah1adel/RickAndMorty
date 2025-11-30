@@ -187,13 +187,17 @@ extension RMCharacterListViewViewModel: UIScrollViewDelegate {
               let url = URL(string: nextUrlString) else {
             return
         }
+        
+        // Capture scroll view values on main thread before timer
+        let offset = scrollView.contentOffset.y
+        let totalContentHeight = scrollView.contentSize.height
+        let totalScrollViewFixedHeight = scrollView.frame.size.height
+        
         Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
-            let offset = scrollView.contentOffset.y
-            let totalContentHeight = scrollView.contentSize.height
-            let totalScrollViewFixedHeight = scrollView.frame.size.height
-
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-                self?.fetchAdditionalCharacters(url: url)
+                DispatchQueue.main.async {
+                    self?.fetchAdditionalCharacters(url: url)
+                }
             }
             t.invalidate()
         }

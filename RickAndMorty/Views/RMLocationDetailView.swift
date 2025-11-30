@@ -6,6 +6,7 @@
 //
 import UIKit
 
+@MainActor
 protocol RMLocationDetailViewDelegate: AnyObject {
     func rmEpisodeDetailView(
         _ detailView: RMLocationDetailView,

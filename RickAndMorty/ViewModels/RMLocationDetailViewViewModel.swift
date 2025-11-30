@@ -101,9 +101,17 @@ final class RMLocationDetailViewViewModel {
         }).compactMap({
             return RMRequest(url: $0)
         })
+        
+        // Handle empty residents case
+        guard !requests.isEmpty else {
+            self.dataTuple = (location: location, characters: [])
+            return
+        }
 
         let group = DispatchGroup()
+        let lock = NSLock()
         var characters: [RMCharacter] = []
+        
         for request in requests {
             group.enter()
             RMService.shared.execute(request, expecting: RMCharacter.self) { result in
@@ -113,9 +121,11 @@ final class RMLocationDetailViewViewModel {
 
                 switch result {
                 case .success(let model):
+                    lock.lock()
                     characters.append(model)
-                case .failure:
-                    break
+                    lock.unlock()
+                case .failure(let error):
+                    print("Failed to fetch character: \(error)")
                 }
             }
         }
