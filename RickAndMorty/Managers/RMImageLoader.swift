@@ -9,9 +9,9 @@
 import Foundation
 
 /// Manage for image loading
-final class RMImageLoader {
+final class RMImageLoader: @unchecked Sendable {
     /// Shared instance
-    @MainActor static let shared = RMImageLoader()
+    nonisolated(unsafe) static let shared = RMImageLoader()
 
     /// In memory data cache
     private var imageDataCache = NSCache<NSString, NSData>()

@@ -7,9 +7,9 @@
 import Foundation
 
 /// Primary API service object to get Rick and Morty data
-final class RMService {
+final class RMService: @unchecked Sendable {
     /// Shared singleton instance
-    @MainActor static let shared = RMService()
+    nonisolated(unsafe) static let shared = RMService()
 
     private let cacheManager = RMAPICacheManager()
 

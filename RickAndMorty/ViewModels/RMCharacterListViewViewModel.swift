@@ -14,6 +14,7 @@ protocol RMCharacterListViewViewModelDelegate: AnyObject {
 }
 
 /// View Model to handle character list view logic
+@MainActor
 final class RMCharacterListViewViewModel: NSObject {
 
     public weak var delegate: RMCharacterListViewViewModelDelegate?
@@ -40,13 +41,15 @@ final class RMCharacterListViewViewModel: NSObject {
     private var apiInfo: RMGetAllCharactersResponse.Info? = nil
 
     /// Fetch initial set of characters (20)
-    @MainActor public func fetchCharacters() {
+    public func fetchCharacters() {
+        print("📡 Fetching characters...")
         RMService.shared.execute(
             .listCharactersRequests,
             expecting: RMGetAllCharactersResponse.self
         ) { [weak self] result in
             switch result {
             case .success(let responseModel):
+                print("✅ Got \(responseModel.results.count) characters")
                 let results = responseModel.results
                 let info = responseModel.info
                 DispatchQueue.main.async {
@@ -55,13 +58,13 @@ final class RMCharacterListViewViewModel: NSObject {
                     self?.delegate?.didLoadInitialCharacters()
                 }
             case .failure(let error):
-                print(String(describing: error))
+                print("❌ Error fetching characters: \(error)")
             }
         }
     }
 
     /// Paginate if additional characters are needed
-    @MainActor public func fetchAdditionalCharacters(url: URL) {
+    public func fetchAdditionalCharacters(url: URL) {
         guard !isLoadingMoreCharacters else {
             return
         }

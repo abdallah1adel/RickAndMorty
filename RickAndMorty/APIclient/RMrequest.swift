@@ -128,8 +128,8 @@ final class RMRequest {
 // MARK: - Request convenience
 
 extension RMRequest {
-    @MainActor static let listCharactersRequests = RMRequest(endpoint: .character)
-    @MainActor static let listEpisodesRequest = RMRequest(endpoint: .episode)
-    @MainActor static let listLocationsRequest = RMRequest(endpoint: .location)
+    nonisolated(unsafe) static let listCharactersRequests = RMRequest(endpoint: .character)
+    nonisolated(unsafe) static let listEpisodesRequest = RMRequest(endpoint: .episode)
+    nonisolated(unsafe) static let listLocationsRequest = RMRequest(endpoint: .location)
 }
 
