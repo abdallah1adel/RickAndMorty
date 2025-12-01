@@ -2,7 +2,7 @@
 //  RMCharacterInfoCollectionViewCell.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 29/01/2025.
+//  Created by Abdallah Adel on 29/01/2025.
 //
 
 import UIKit
@@ -10,13 +10,8 @@ import UIKit
 final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     static let cellIdentifer = "RMCharacterInfoCollectionViewCell"
     
-    // Glass background
-    private let glassBackground: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-        let view = UIVisualEffectView(effect: blurEffect)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    // Glass background with fallback
+    private lazy var glassBackground: UIView = createSafeBlurView(style: .systemUltraThinMaterial)
 
     private let valueLabel: UILabel = {
         let label = UILabel()
@@ -60,7 +55,8 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         setupGlassStyle()
         contentView.addSubview(glassBackground)
-        glassBackground.contentView.addSubviews(iconContainer, valueLabel, titleLabel)
+        let content = getContentView(from: glassBackground)
+        content.addSubviews(iconContainer, valueLabel, titleLabel)
         iconContainer.addSubview(iconImageView)
         setUpConstraints()
     }
@@ -89,6 +85,8 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     }
 
     private func setUpConstraints() {
+        let labelParent = getContentView(from: glassBackground)
+        
         NSLayoutConstraint.activate([
             // Glass background
             glassBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -97,8 +95,8 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
             glassBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             // Icon container at top center
-            iconContainer.topAnchor.constraint(equalTo: glassBackground.contentView.topAnchor, constant: 16),
-            iconContainer.centerXAnchor.constraint(equalTo: glassBackground.contentView.centerXAnchor),
+            iconContainer.topAnchor.constraint(equalTo: labelParent.topAnchor, constant: 16),
+            iconContainer.centerXAnchor.constraint(equalTo: labelParent.centerXAnchor),
             iconContainer.widthAnchor.constraint(equalToConstant: 40),
             iconContainer.heightAnchor.constraint(equalToConstant: 40),
             
@@ -110,14 +108,14 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
             
             // Value label in middle
             valueLabel.topAnchor.constraint(equalTo: iconContainer.bottomAnchor, constant: 10),
-            valueLabel.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 8),
-            valueLabel.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -8),
+            valueLabel.leadingAnchor.constraint(equalTo: labelParent.leadingAnchor, constant: 8),
+            valueLabel.trailingAnchor.constraint(equalTo: labelParent.trailingAnchor, constant: -8),
             
             // Title at bottom
             titleLabel.topAnchor.constraint(equalTo: valueLabel.bottomAnchor, constant: 6),
-            titleLabel.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 8),
-            titleLabel.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -8),
-            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: glassBackground.contentView.bottomAnchor, constant: -12),
+            titleLabel.leadingAnchor.constraint(equalTo: labelParent.leadingAnchor, constant: 8),
+            titleLabel.trailingAnchor.constraint(equalTo: labelParent.trailingAnchor, constant: -8),
+            titleLabel.bottomAnchor.constraint(lessThanOrEqualTo: labelParent.bottomAnchor, constant: -12),
         ])
     }
 

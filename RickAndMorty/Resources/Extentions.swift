@@ -2,7 +2,7 @@
 //  Extentions.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 03/05/2024.
+//  Created by Abdallah Adel on 03/05/2024.
 //
 
 import Foundation
@@ -14,6 +14,32 @@ extension UIView {
     func addSubViews(_ views: UIView...) {
         views.forEach { addSubview($0) }
     }
+}
+
+// MARK: - Safe Blur View Helper
+
+/// Creates a blur view with fallback for reduced transparency mode
+func createSafeBlurView(style: UIBlurEffect.Style = .systemThinMaterial) -> UIView {
+    if !UIAccessibility.isReduceTransparencyEnabled {
+        let blurEffect = UIBlurEffect(style: style)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        return blurView
+    } else {
+        // Fallback for reduce transparency
+        let fallbackView = UIView()
+        fallbackView.backgroundColor = UIColor.secondarySystemBackground
+        fallbackView.translatesAutoresizingMaskIntoConstraints = false
+        return fallbackView
+    }
+}
+
+/// Helper to get the content view for labels (works with both blur and fallback)
+func getContentView(from view: UIView) -> UIView {
+    if let blurView = view as? UIVisualEffectView {
+        return blurView.contentView
+    }
+    return view
 }
 
 // MARK: - Liquid Glass Theme Colors

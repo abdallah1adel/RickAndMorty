@@ -2,7 +2,7 @@
 //  RMCharacterCollectionViewCell.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 03/05/2024.
+//  Created by Abdallah Adel on 03/05/2024.
 //
 import UIKit
 
@@ -18,11 +18,29 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    // Glass overlay for text area
-    private let glassOverlay: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemThinMaterial)
-        let view = UIVisualEffectView(effect: blurEffect)
+    // Glass overlay for text area - with fallback for reduced transparency
+    private let glassOverlay: UIView = {
+        let view: UIView
+        if !UIAccessibility.isReduceTransparencyEnabled {
+            let blurEffect = UIBlurEffect(style: .systemThinMaterial)
+            let blurView = UIVisualEffectView(effect: blurEffect)
+            blurView.translatesAutoresizingMaskIntoConstraints = false
+            view = blurView
+        } else {
+            // Fallback for reduce transparency
+            let fallbackView = UIView()
+            fallbackView.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.9)
+            fallbackView.translatesAutoresizingMaskIntoConstraints = false
+            view = fallbackView
+        }
+        return view
+    }()
+    
+    // Container view for labels (works with both blur and fallback)
+    private let labelContainer: UIView = {
+        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
         return view
     }()
 
@@ -57,7 +75,13 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         setupGlassCard()
         contentView.addSubviews(imageView, glassOverlay)
-        glassOverlay.contentView.addSubviews(statusDot, nameLabel, statusLabel)
+        
+        // Add labels to the appropriate container
+        if let blurView = glassOverlay as? UIVisualEffectView {
+            blurView.contentView.addSubviews(statusDot, nameLabel, statusLabel)
+        } else {
+            glassOverlay.addSubviews(statusDot, nameLabel, statusLabel)
+        }
         addConstraints()
     }
 
@@ -88,6 +112,14 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     }
 
     private func addConstraints() {
+        // Get the container for labels (either contentView of blur or the view itself)
+        let labelParent: UIView
+        if let blurView = glassOverlay as? UIVisualEffectView {
+            labelParent = blurView.contentView
+        } else {
+            labelParent = glassOverlay
+        }
+        
         NSLayoutConstraint.activate([
             // Image fills the card
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -104,18 +136,18 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             // Status dot
             statusDot.widthAnchor.constraint(equalToConstant: 8),
             statusDot.heightAnchor.constraint(equalToConstant: 8),
-            statusDot.leftAnchor.constraint(equalTo: glassOverlay.contentView.leftAnchor, constant: 12),
+            statusDot.leftAnchor.constraint(equalTo: labelParent.leftAnchor, constant: 12),
             statusDot.centerYAnchor.constraint(equalTo: statusLabel.centerYAnchor),
             
             // Name label
-            nameLabel.topAnchor.constraint(equalTo: glassOverlay.contentView.topAnchor, constant: 10),
-            nameLabel.leftAnchor.constraint(equalTo: glassOverlay.contentView.leftAnchor, constant: 12),
-            nameLabel.rightAnchor.constraint(equalTo: glassOverlay.contentView.rightAnchor, constant: -12),
+            nameLabel.topAnchor.constraint(equalTo: labelParent.topAnchor, constant: 10),
+            nameLabel.leftAnchor.constraint(equalTo: labelParent.leftAnchor, constant: 12),
+            nameLabel.rightAnchor.constraint(equalTo: labelParent.rightAnchor, constant: -12),
             
             // Status label with dot spacing
             statusLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4),
             statusLabel.leftAnchor.constraint(equalTo: statusDot.rightAnchor, constant: 6),
-            statusLabel.rightAnchor.constraint(equalTo: glassOverlay.contentView.rightAnchor, constant: -12),
+            statusLabel.rightAnchor.constraint(equalTo: labelParent.rightAnchor, constant: -12),
         ])
     }
 

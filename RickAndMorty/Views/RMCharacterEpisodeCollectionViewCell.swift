@@ -2,7 +2,7 @@
 //  RMCharacterEpisodeCollectionViewCell.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 29/01/2025.
+//  Created by Abdallah Adel on 29/01/2025.
 //
 
 import UIKit
@@ -10,13 +10,8 @@ import UIKit
 class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     static let cellIdentifer = "RMCharacterEpisodeCollectionViewCell"
     
-    // Glass background
-    private let glassBackground: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemThinMaterial)
-        let view = UIVisualEffectView(effect: blurEffect)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    // Glass background with fallback
+    private lazy var glassBackground: UIView = createSafeBlurView(style: .systemThinMaterial)
     
     // Accent color bar on left
     private let accentBar: UIView = {
@@ -69,7 +64,7 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         backgroundColor = .clear
         setupGlassStyle()
         contentView.addSubview(glassBackground)
-        glassBackground.contentView.addSubviews(accentBar, episodeIcon, seasonLabel, nameLabel, airDateLabel)
+        getContentView(from: glassBackground).addSubviews(accentBar, episodeIcon, seasonLabel, nameLabel, airDateLabel)
         setUpConstraints()
     }
 
@@ -97,6 +92,8 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     }
 
     private func setUpConstraints() {
+        let labelParent = getContentView(from: glassBackground)
+        
         NSLayoutConstraint.activate([
             // Glass background fills cell
             glassBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -105,19 +102,19 @@ class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
             glassBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             // Accent bar on left
-            accentBar.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 12),
-            accentBar.topAnchor.constraint(equalTo: glassBackground.contentView.topAnchor, constant: 12),
-            accentBar.bottomAnchor.constraint(equalTo: glassBackground.contentView.bottomAnchor, constant: -12),
+            accentBar.leadingAnchor.constraint(equalTo: labelParent.leadingAnchor, constant: 12),
+            accentBar.topAnchor.constraint(equalTo: labelParent.topAnchor, constant: 12),
+            accentBar.bottomAnchor.constraint(equalTo: labelParent.bottomAnchor, constant: -12),
             accentBar.widthAnchor.constraint(equalToConstant: 4),
             
             // Episode icon
-            episodeIcon.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -16),
-            episodeIcon.centerYAnchor.constraint(equalTo: glassBackground.contentView.centerYAnchor),
+            episodeIcon.trailingAnchor.constraint(equalTo: labelParent.trailingAnchor, constant: -16),
+            episodeIcon.centerYAnchor.constraint(equalTo: labelParent.centerYAnchor),
             episodeIcon.widthAnchor.constraint(equalToConstant: 32),
             episodeIcon.heightAnchor.constraint(equalToConstant: 32),
             
             // Season label
-            seasonLabel.topAnchor.constraint(equalTo: glassBackground.contentView.topAnchor, constant: 14),
+            seasonLabel.topAnchor.constraint(equalTo: labelParent.topAnchor, constant: 14),
             seasonLabel.leadingAnchor.constraint(equalTo: accentBar.trailingAnchor, constant: 12),
             seasonLabel.trailingAnchor.constraint(equalTo: episodeIcon.leadingAnchor, constant: -12),
             

@@ -2,20 +2,15 @@
 //  RMEpisodeInfoCollectionViewCell.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 29/01/2025.
+//  Created by Abdallah Adel on 29/01/2025.
 //
 import UIKit
 
 final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     static let cellIdentifier = "RMEpisodeInfoCollectionViewCell"
     
-    // Glass background
-    private let glassBackground: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-        let view = UIVisualEffectView(effect: blurEffect)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    // Glass background with fallback
+    private lazy var glassBackground: UIView = createSafeBlurView(style: .systemUltraThinMaterial)
 
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -40,7 +35,7 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .clear
         backgroundColor = .clear
         contentView.addSubview(glassBackground)
-        glassBackground.contentView.addSubviews(titleLabel, valueLabel)
+        getContentView(from: glassBackground).addSubviews(titleLabel, valueLabel)
         setUpLayer()
         addConstraints()
     }
@@ -69,6 +64,8 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     }
 
     private func addConstraints() {
+        let labelParent = getContentView(from: glassBackground)
+        
         NSLayoutConstraint.activate([
             // Glass background fills cell
             glassBackground.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -77,15 +74,15 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
             glassBackground.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             // Title at top
-            titleLabel.topAnchor.constraint(equalTo: glassBackground.contentView.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 14),
-            titleLabel.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -14),
+            titleLabel.topAnchor.constraint(equalTo: labelParent.topAnchor, constant: 12),
+            titleLabel.leadingAnchor.constraint(equalTo: labelParent.leadingAnchor, constant: 14),
+            titleLabel.trailingAnchor.constraint(equalTo: labelParent.trailingAnchor, constant: -14),
             
             // Value below title
             valueLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            valueLabel.leadingAnchor.constraint(equalTo: glassBackground.contentView.leadingAnchor, constant: 14),
-            valueLabel.trailingAnchor.constraint(equalTo: glassBackground.contentView.trailingAnchor, constant: -14),
-            valueLabel.bottomAnchor.constraint(lessThanOrEqualTo: glassBackground.contentView.bottomAnchor, constant: -12),
+            valueLabel.leadingAnchor.constraint(equalTo: labelParent.leadingAnchor, constant: 14),
+            valueLabel.trailingAnchor.constraint(equalTo: labelParent.trailingAnchor, constant: -14),
+            valueLabel.bottomAnchor.constraint(lessThanOrEqualTo: labelParent.bottomAnchor, constant: -12),
         ])
     }
 
