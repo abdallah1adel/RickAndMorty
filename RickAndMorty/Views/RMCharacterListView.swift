@@ -2,7 +2,7 @@
 //  RMCharacterListView.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 04/05/2024.
+//  Created by Abdallah Adel
 //
 
 import UIKit

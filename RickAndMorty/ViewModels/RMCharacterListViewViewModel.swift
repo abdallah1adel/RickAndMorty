@@ -2,7 +2,7 @@
 //  CharacterListViewViewModel.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 03/05/2024.
+//  Created by Abdallah Adel
 //
 import UIKit
 

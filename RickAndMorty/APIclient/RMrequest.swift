@@ -1,8 +1,8 @@
 //
-//  RMrequest.swift
+//  RMRequest.swift
 //  RickAndMorty
 //
-//  Created by pcpos on 21/04/2024.
+//  Created by Abdallah Adel
 //
 import Foundation
 
