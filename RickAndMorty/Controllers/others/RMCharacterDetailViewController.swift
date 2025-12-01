@@ -46,6 +46,18 @@ final class RMCharacterDetailViewController: UIViewController {
     @objc
     private func didTapShare() {
         // Share character info
+        let characterName = viewModel.title
+        let shareText = "Check out \(characterName) from Rick and Morty! 🧪💚"
+        
+        let activityVC = UIActivityViewController(
+            activityItems: [shareText],
+            applicationActivities: nil
+        )
+        
+        // For iPad
+        activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        
+        present(activityVC, animated: true)
     }
 
     private func addConstraints() {

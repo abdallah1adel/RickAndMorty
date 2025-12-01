@@ -52,7 +52,15 @@ final class RMLocationDetailViewController: UIViewController, @MainActor RMLocat
 
     @objc
     private func didTapShare() {
-
+        let locationTitle = title ?? "Location"
+        let shareText = "Check out \(locationTitle) from Rick and Morty! 🌍💚"
+        
+        let activityVC = UIActivityViewController(
+            activityItems: [shareText],
+            applicationActivities: nil
+        )
+        activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(activityVC, animated: true)
     }
 
     // MARK: - View Delegate

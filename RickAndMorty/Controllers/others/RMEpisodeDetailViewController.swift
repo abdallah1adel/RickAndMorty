@@ -51,7 +51,15 @@ final class RMEpisodeDetailViewController: UIViewController, RMEpisodeDetailView
 
     @objc
     private func didTapShare() {
-
+        let episodeTitle = title ?? "Episode"
+        let shareText = "Check out \(episodeTitle) from Rick and Morty! 📺💚"
+        
+        let activityVC = UIActivityViewController(
+            activityItems: [shareText],
+            applicationActivities: nil
+        )
+        activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(activityVC, animated: true)
     }
 
     // MARK: - View Delegate
